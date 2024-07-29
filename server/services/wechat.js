@@ -1,5 +1,7 @@
 'use strict';
 const axios = require("axios")
+const https = require('https')
+
 const pluginId = require("../pluginId")
 let queryIdentification = `plugin::${pluginId}.wx-credential`
 const agent = new https.Agent({
