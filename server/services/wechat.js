@@ -2,6 +2,9 @@
 const axios = require("axios")
 const pluginId = require("../pluginId")
 let queryIdentification = `plugin::${pluginId}.wx-credential`
+const agent = new https.Agent({
+  rejectUnauthorized: false
+});
 
 module.exports = ({ strapi }) => ({
 
@@ -55,7 +58,7 @@ module.exports = ({ strapi }) => ({
           return reject({ error: true, message: "Missing credentials" });
         }
 
-        let resData = await axios.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${app_id}&secret=${app_secret}&js_code=${code}&grant_type=authorization_code`)
+        let resData = await axios.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${app_id}&secret=${app_secret}&js_code=${code}&grant_type=authorization_code`, { httpsAgent: agent })
         if (resData.status !== 200) {
           return reject({ error: true, message: "Error occur when request to wechat api" });
         }
